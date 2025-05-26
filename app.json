@@ -4,7 +4,7 @@
     "slug": "CalcTrack-App",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/CALC_TRACKER_1.png",
     "scheme": "calctrackapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,8 +13,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/CALC_TRACKER_1.png",
+        "backgroundColor": "#E4CF30"
       },
       "edgeToEdgeEnabled": true
     },
@@ -28,12 +28,13 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/CALC_TRACKER_1.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#E4CF30"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
