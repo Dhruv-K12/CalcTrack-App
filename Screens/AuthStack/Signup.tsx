@@ -3,6 +3,8 @@ import { verifyEmailAndPassword } from "@/authentication";
 import AuthBtn from "@/components/AuthBtn";
 import AuthInput from "@/components/AuthInput";
 import BackBtn from "@/components/backBtn";
+import Loading from "@/components/Loading";
+import { useMainCtx } from "@/MainContext";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
@@ -22,9 +24,10 @@ const Signup = ({ navigation }: props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const { loading, setLoading } = useMainCtx();
   const verifyName = () => {
     if (name.trim().length !== 0) {
-      verifyEmailAndPassword(email, pass, name);
+      verifyEmailAndPassword(email, pass, setLoading, name);
     } else {
       Alert.alert(
         "Invalid Name",
@@ -32,6 +35,9 @@ const Signup = ({ navigation }: props) => {
       );
     }
   };
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <LinearGradient
       colors={["#AEAEAE", "#E4CF30"]}

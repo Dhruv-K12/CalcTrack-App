@@ -4,12 +4,13 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 
 type props = {
   onPress: () => void;
+  right?: boolean;
 };
-const BackBtn = ({ onPress }: props) => {
+const BackBtn = ({ onPress, right }: props) => {
   return (
     <TouchableOpacity style={styles.btn} onPress={onPress}>
       <AntDesign
-        name="leftcircle"
+        name={right ? "rightcircle" : "leftcircle"}
         size={50}
         color="black"
       />

@@ -1,19 +1,24 @@
 import { auth } from "@/firebaseConfig";
+import { getItems } from "@/Foodapi";
+import { useMainCtx } from "@/MainContext";
 import Login from "@/Screens/AuthStack/Login";
 import Main from "@/Screens/AuthStack/Main";
 import Signup from "@/Screens/AuthStack/Signup";
+import NutritionInfo from "@/Screens/Stack/NutritionInfo";
+import Questions from "@/Screens/Stack/Questions";
+import Search from "@/Screens/Stack/Search";
 import Home from "@/Screens/Tabs/Home";
 import Profile from "@/Screens/Tabs/Profile";
+import Entypo from "@expo/vector-icons/Entypo";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import * as splashscreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 splashscreen.preventAutoHideAsync();
 export type rootStackParamList = {
   Main: undefined;
@@ -36,27 +41,76 @@ const AuthStack = () => {
     </Stack.Navigator>
   );
 };
-const StackMain = createNativeStackNavigator();
+export type RootMainStackParamList = {
+  Tabs: undefined;
+  Search: undefined;
+  NutritionInfo: { details: any };
+  Questions: undefined;
+};
+const StackMain =
+  createNativeStackNavigator<RootMainStackParamList>();
 const MainStack = () => {
   return (
     <StackMain.Navigator
       screenOptions={{ headerShown: false }}
     >
       <StackMain.Screen name="Tabs" component={MainTabs} />
+      <StackMain.Screen name="Search" component={Search} />
+      <StackMain.Screen
+        name="NutritionInfo"
+        component={NutritionInfo}
+      />
+      <StackMain.Screen
+        name="Questions"
+        component={Questions}
+      />
     </StackMain.Navigator>
   );
 };
 const Tabs = createBottomTabNavigator();
 const MainTabs = () => {
   return (
-    <Tabs.Navigator screenOptions={{ headerShown: false }}>
-      <Tabs.Screen name="Home" component={Home} />
-      <Tabs.Screen name="Profile" component={Profile} />
+    <Tabs.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: "#EFDA3E",
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+        },
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "black",
+      }}
+    >
+      <Tabs.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: () => (
+            <Entypo name="home" size={24} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: () => (
+            <FontAwesome
+              name="user"
+              size={24}
+              color="black"
+            />
+          ),
+        }}
+      />
     </Tabs.Navigator>
   );
 };
 const App = () => {
-  const [user, setUser] = useState<User>();
+  const { user, setUser, setItems, setTotalCalories } =
+    useMainCtx();
   const [loading, setLoading] = useState(true);
   const [loaded, error] = useFonts({
     "inter-bold": require("../assets/fonts/Inter/static/Inter_18pt-ExtraBold.ttf"),
@@ -68,21 +122,20 @@ const App = () => {
         if (user) {
           setUser(user);
         }
+        setLoading(false);
+        getItems(setItems, setTotalCalories);
+        splashscreen.hideAsync();
       });
-      setLoading(false);
     }
   }, [loaded, error]);
-  if (!loaded && !error) {
+  if ((!loaded && !error) || loading) {
     return null;
   }
-  if (!loading) {
-    splashscreen.hideAsync();
-  }
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <>
       {user ? <MainStack /> : <AuthStack />}
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </>
   );
 };
 

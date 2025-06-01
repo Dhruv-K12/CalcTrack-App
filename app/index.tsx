@@ -1,9 +1,18 @@
+import { CtxProvider } from "@/MainContext";
+import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import App from "./App";
 
 const index = () => {
-  return <App />;
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <StatusBar style="auto" />
+      <CtxProvider>
+        <App />
+      </CtxProvider>
+    </SafeAreaView>
+  );
 };
 
 export default index;

@@ -3,6 +3,8 @@ import { verifyEmailAndPassword } from "@/authentication";
 import AuthBtn from "@/components/AuthBtn";
 import AuthInput from "@/components/AuthInput";
 import BackBtn from "@/components/backBtn";
+import Loading from "@/components/Loading";
+import { useMainCtx } from "@/MainContext";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
@@ -17,6 +19,10 @@ type props = {
 const Login = ({ navigation }: props) => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
+  const { setLoading, loading } = useMainCtx();
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <LinearGradient
       colors={["#AEAEAE", "#E4CF30"]}
@@ -51,7 +57,7 @@ const Login = ({ navigation }: props) => {
         />
         <AuthBtn
           onPress={() =>
-            verifyEmailAndPassword(email, pass)
+            verifyEmailAndPassword(email, pass, setLoading)
           }
           color="#C54A4C"
         >

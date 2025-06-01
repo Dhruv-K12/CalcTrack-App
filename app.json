@@ -14,9 +14,10 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/CALC_TRACKER_1.png",
-        "backgroundColor": "#E4CF30"
+        "backgroundColor": "#F6E988"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.dhruvku12.CalcTrackApp"
     },
     "web": {
       "bundler": "metro",
@@ -31,13 +32,19 @@
           "image": "./assets/images/CALC_TRACKER_1.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#E4CF30"
+          "backgroundColor": "#F6E988"
         }
       ],
       "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e80ec462-2805-4247-987e-559a5f931653"
+      }
     }
   }
 }

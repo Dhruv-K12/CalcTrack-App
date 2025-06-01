@@ -20,11 +20,12 @@ const AuthInput = ({
   return (
     <View style={styles.mainContainer}>
       <TextInput
-        style={styles.input}
+        style={[styles.input]}
         placeholder={placeholder}
         onChangeText={onChangeText}
         value={value}
         secureTextEntry={password && !pass}
+        placeholderTextColor="black"
       />
       {password && (
         <Ionicons
